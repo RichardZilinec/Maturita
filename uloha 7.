@@ -1,0 +1,14 @@
+import random
+#
+#
+#
+student = int(input('Zadaj pocet studentov:'))
+otazka = int(input('Zadaj pocet otazok:'))
+if student < otazka:
+    zoznam_otazok = list(range(1,otazka + 1))
+    random.shuffle(zoznam_otazok)
+    for i in range(1, student + 1):
+        otazka_2 = zoznam_otazok.pop()
+        print(f'{i}. student:{random.randint(1, student)} , otazka:{otazka_2}')
+else:
+    print('Zadany pocet otazok je mensi ako zadany pocet studentov!')
