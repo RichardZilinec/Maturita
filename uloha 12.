@@ -1,0 +1,51 @@
+subor = open("bus_vytazenost.txt", "r")
+
+kapacita = int(subor.readline())
+
+pocet_zastavok = 0
+zastavky_list = []
+preplnene_zastavky = []
+
+aktualny_pocet_ludi = 0
+max_prekrocenie = 0
+
+for riadok in subor:
+    riadok = riadok.strip()
+    if not riadok:
+        continue
+    
+    pocet_zastavok = pocet_zastavok + 1
+
+    slova = riadok.split()
+    
+    nastupili = int(slova[0])
+    vystupili = int(slova[1])
+    
+    nazov_zastavky = " ".join(slova[2:])
+    zastavky_list.append(nazov_zastavky)
+    
+    aktualny_pocet_ludi = aktualny_pocet_ludi + nastupili - vystupili
+
+    if aktualny_pocet_ludi > kapacita:
+        preplnene_zastavky.append(nazov_zastavky)
+        
+        prekrocenie = aktualny_pocet_ludi - kapacita
+        if prekrocenie > max_prekrocenie:
+            max_prekrocenie = prekrocenie
+
+subor.close()
+
+
+print("Počet zastávok na trase:", pocet_zastavok)
+
+print("Zastávky na trase:", ", ".join(zastavky_list))
+
+if len(preplnene_zastavky) > 0:
+    print("Preplnené zastávky:", ", ".join(preplnene_zastavky))
+else:
+    print("Autobus nebol nikde preplnený.")
+
+if max_prekrocenie > 0:
+    print("Najvyšší počet ľudí nad kapacitu:", max_prekrocenie)
+else:
+    print("Kapacita nebola prekročená ani raz.")
