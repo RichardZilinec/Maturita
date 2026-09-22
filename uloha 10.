@@ -1,0 +1,21 @@
+subor = open('sutaz_vbehu.txt', 'r', encoding='utf-8')
+
+zoz_sport = []
+riadky = subor.readlines()
+pocet = len(riadky)
+temp = 9999999999999
+najlepsi = ''
+
+for riadok in riadky:
+    slova = riadok.split()
+#   print(slova)
+    zoz_sport.append(f'Sutaziaci {slova[0]} dobehol do ciela za {slova[1]} sekund.')
+    if int(slova[1]) < temp:
+        najlepsi = slova[0]
+        temp = int(slova[1])
+minuty = temp // 60
+sekundy = temp % 60
+
+print(zoz_sport)
+print(f'Vitazom sa stal {najlepsi} s casom {minuty} min. {sekundy} sek.')
+print(f'Pocet zucastnenych sportovcov: {pocet}') 
