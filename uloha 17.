@@ -1,0 +1,26 @@
+veta = input("Zadaj vetu (veľké písmená a medzery): ")
+
+tabulka = [" ", "ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "VWX", "YZ"]
+zasifrovana_veta = []
+pocitadlo_policok = [0] * 10
+
+for pismeno in veta:
+    for cislo_policka in range(10):
+        skupina = tabulka[cislo_policka]
+        
+        if pismeno in skupina:
+            pozicia = skupina.index(pismeno)
+            sifra = str(cislo_policka) * (pozicia + 1)
+            zasifrovana_veta.append(sifra)
+            pocitadlo_policok[cislo_policka] = pocitadlo_policok[cislo_policka] + 1
+
+print("Zašifrovaná veta:")
+print(" ".join(zasifrovana_veta))
+
+max_vyskyt = max(pocitadlo_policok)
+najcastejsie = []
+for i in range(10):
+    if pocitadlo_policok[i] == max_vyskyt and max_vyskyt > 0:
+        najcastejsie.append(str(i))
+
+print("Najčastejšie zvolené políčka:", ", ".join(najcastejsie))
