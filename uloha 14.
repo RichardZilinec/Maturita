@@ -1,0 +1,51 @@
+subor = open("skok_do_dialky.txt", "r")
+
+krajiny = []
+vsetci_vitazi = []
+najlepsi_pokus_celkovo = 0
+
+for riadok in subor:
+    slova = riadok.split()
+
+    meno = slova[0]
+    krajina = slova[1]
+
+    if krajina not in krajiny:
+        krajiny.append(krajina)
+
+    pokus1 = int(slova[2])
+    pokus2 = int(slova[3])
+    pokus3 = int(slova[4])
+    pokus4 = int(slova[5])
+    pokus5 = int(slova[6])
+
+    osobne_maximum = max(pokus1, pokus2, pokus3, pokus4, pokus5)
+
+    if osobne_maximum > najlepsi_pokus_celkovo:
+        najlepsi_pokus_celkovo = osobne_maximum
+        vsetci_vitazi = [meno]
+    elif osobne_maximum == najlepsi_pokus_celkovo:
+        vsetci_vitazi.append(meno)
+
+subor.close()
+
+print("Zúčastnené krajiny:")
+print(krajiny)
+
+print("-----------------------------------")
+
+print("Počty súťažiacich z krajín:")
+for k in krajiny:
+    pocet = 0
+    subor = open("skok_do_dialky.txt", "r")
+    for riadok in subor:
+        slova = riadok.split()
+        if slova and slova[1] == k:
+            pocet = pocet + 1
+    subor.close()
+
+    print(k, ":", pocet)
+
+print("-----------------------------------")
+
+print("Celkový víťaz s výkonom",najlepsi_pokus_celkovo,"cm:",", ".join(vsetci_vitazi),)
