@@ -1,0 +1,32 @@
+import string
+#
+#
+#
+subor = open('tabulka_pocetnosti.txt', 'r')
+subor_1 = subor.readlines()
+pocet = {}
+nenisu = {}
+subor_r = subor.read()
+#
+#
+#
+for row in range(len(subor_1)):
+    #print(subor_1[row])
+    x = subor_1[row].upper()
+    for i in range(len(x)):
+        if x[i] in pocet:
+            pocet[x[i]] += 1
+        else:
+            pocet[x[i]] = 1
+#
+#
+#
+for a in string.ascii_uppercase:
+    if a not in pocet:
+        nenisu[a] = 'NENI'
+#
+#
+#
+print(nenisu)
+print(f'POcty jednotlivych znakov v texte: {pocet}')
+print(subor_r)
