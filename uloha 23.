@@ -1,0 +1,39 @@
+akcia = input("Chceš text zašifrovať (s) alebo dešifrovať (d)? ")
+kluc = input("Zadaj šifrovací kľúč (malé písmená): ")
+abeceda = "abcdefghijklmnopqrstuvwxyz"
+#
+#
+#
+vstupny_subor = open("vstupny_text.txt", "r", encoding="utf-8")
+vystupny_subor = open("vystupny_text.txt", "w", encoding="utf-8")
+#
+#
+#
+for riadok in vstupny_subor:
+    zasifrovany_riadok = ""
+    index_kluca = 0
+    for znak in riadok:
+        if znak in abeceda:
+            pismeno_kluca = kluc[index_kluca % len(kluc)]
+            posun = abeceda.index(pismeno_kluca) + 1
+            #
+            #
+            #
+            if akcia == "d":
+                posun = -posun
+            #
+            #
+            #
+            aktualna_pozicia = abeceda.index(znak)
+            nova_pozicia = aktualna_pozicia + posun
+            nova_pozicia = nova_pozicia % 26
+            zasifrovany_riadok = zasifrovany_riadok + abeceda[nova_pozicia]
+            index_kluca = index_kluca + 1
+        else:
+            zasifrovany_riadok = zasifrovany_riadok + znak
+    vystupny_subor.write(zasifrovany_riadok)
+#
+#
+#
+vstupny_subor.close()
+vystupny_subor.close()
