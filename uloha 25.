@@ -1,0 +1,68 @@
+import random
+#
+#
+#
+vstup = input("Zadaj 6 tipovaných čísel (oddelené medzerou): ")
+slova = vstup.split()
+user_tipy = []
+#
+#
+#
+for s in slova:
+    user_tipy.append(int(s))
+
+vyzrebovane = []
+
+while len(vyzrebovane) < 6:
+    nahodne_cislo = random.randint(1, 49)
+    if nahodne_cislo not in vyzrebovane:
+        vyzrebovane.append(nahodne_cislo)
+#
+#
+#
+print("Vyžrebované čísla:", vyzrebovane)
+#
+#
+#
+uhadnute_cisla = []
+
+for cislo in user_tipy:
+    if cislo in vyzrebovane:
+        uhadnute_cisla.append(cislo)
+
+print("Tvoje uhádnuté čísla:", uhadnute_cisla)
+print("Počet uhádnutých čísel:", len(uhadnute_cisla))
+#
+#
+#
+nazov_suboru = "loteria_1.txt"
+subor = open(nazov_suboru, "r", encoding="utf-8")
+pocitadla_uspechov = [0, 0, 0, 0, 0, 0, 0]
+
+for riadok in subor:
+    riadok = riadok.strip()
+    if not riadok:
+        continue
+
+    slova_ucastnika = riadok.split()
+    ucastnik_tipy = []
+    for s in slova_ucastnika:
+        ucastnik_tipy.append(int(s))
+
+    zhody = 0
+    for t in ucastnik_tipy:
+        if t in vyzrebovane:
+            zhody = zhody + 1
+
+    pocitadla_uspechov[zhody] = pocitadla_uspechov[zhody] + 1
+
+subor.close()
+#
+#
+#
+print("Počet účastníkov s 1 úspešným číslom:", pocitadla_uspechov[1])
+print("Počet účastníkov s 2 úspešnými číslami:", pocitadla_uspechov[2])
+print("Počet účastnikòv s 3 úspešnými číslami:", pocitadla_uspechov[3])
+print("Počet účastníkov s 4 úspešnými číslami:", pocitadla_uspechov[4])  # pridane pre istotu
+print("Počet účastníkov s 5 úspešnými číslami:", pocitadla_uspechov[5])
+print("Počet účastníkov so 6 úspešnými číslami:", pocitadla_uspechov[6])
