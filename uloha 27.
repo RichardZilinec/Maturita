@@ -1,0 +1,63 @@
+import random
+
+subor = open("virus.txt", "r", encoding="utf-8")
+riadky = []
+
+for riadok in subor:
+    cisty_riadok = riadok.strip()
+    print(cisty_riadok)
+    riadky.append(cisty_riadok)
+
+subor.close()
+
+rozhodnutie_riadky = random.randint(0, 1)
+
+if rozhodnutie_riadky == 1:
+    nove_riadky = []
+    i = len(riadky) - 1
+    while i >= 0:
+        nove_riadky.append(riadky[i])
+        i = i - 1
+    riadky = nove_riadky
+
+vystupne_riadky = []
+
+for riadok in riadky:
+    slova = riadok.split(" ")
+    rozhodnutie_slova = random.randint(0, 1)
+    if rozhodnutie_slova == 1:
+        otocene_slova = []
+        j = len(slova) - 1
+        while j >= 0:
+            otocene_slova.append(slova[j])
+            j = j - 1
+        slova = otocene_slova
+
+    finalne_slova = []
+
+    for slovo in slova:
+        rozhodnutie_slovo = random.randint(0, 1)
+        if rozhodnutie_slovo == 1:
+            otocene_slovo = ""
+            k = len(slovo) - 1
+            while k >= 0:
+                otocene_slovo += slovo[k]
+                k = k - 1
+            finalne_slova.append(otocene_slovo)
+        else:
+            finalne_slova.append(slovo)
+
+    spojeny_riadok = ""
+    
+    for m in range(len(finalne_slova)):
+        spojeny_riadok += finalne_slova[m]
+        if m < len(finalne_slova) - 1:
+            spojeny_riadok = spojeny_riadok + " "
+
+    vystupne_riadky.append(spojeny_riadok)
+
+vystupny_subor = open("virus_vystup.txt", "w", encoding="utf-8")
+for r in vystupne_riadky:
+    vystupny_subor.write(r + "\n")
+
+vystupny_subor.close()
