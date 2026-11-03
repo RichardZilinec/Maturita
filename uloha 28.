@@ -1,0 +1,56 @@
+vypadnuti = []
+subor_vypadnuti = open("hlasovanie_vypadnuti.txt", "r", encoding="utf-8")
+
+for riadok in subor_vypadnuti:
+    cislo = riadok.strip()
+    if cislo != "":
+        vypadnuti.append(cislo)
+
+subor_vypadnuti.close()
+hlasy = {}
+
+for i in range(5220, 5230):
+    hlasy[str(i)] = 0
+
+celkovy_pocet_sms = 0
+subor_hlasy = open("hlasovanie_1.txt", "r", encoding="utf-8")
+
+for riadok in subor_hlasy:
+    cislo = riadok.strip()
+    if cislo != "":
+        celkovy_pocet_sms += 1
+
+        if cislo in hlasy:
+            hlasy[cislo] = hlasy[cislo] + 1
+
+subor_hlasy.close()
+
+print("Celkový počet zaslaných SMS:", celkovy_pocet_sms)
+for cislo in hlasy:
+    print(f"Hlasovacie číslo {cislo}: {hlasy[cislo]} hlasov")
+
+najmenej_celkovo = None
+min_hlasov_celkovo = -1
+
+for cislo in hlasy:
+    pocet = hlasy[cislo]
+    if min_hlasov_celkovo == -1 or pocet < min_hlasov_celkovo:
+        min_hlasov_celkovo = pocet
+        najmenej_celkovo = cislo
+print(f"\nSúťažiaci s najmenej hlasmi (celkovo): {najmenej_celkovo} ({min_hlasov_celkovo} hlasov)")
+
+najmenej_aktivni = None
+min_hlasov_aktivni = -1
+
+for cislo in hlasy:
+    je_vypadnuty = False
+    for v in vypadnuti:
+        if v == cislo:
+            je_vypadnuty = True
+            
+    if not je_vypadnuty:
+        pocet = hlasy[cislo]
+        if min_hlasov_aktivni == -1 or pocet < min_hlasov_aktivni:
+            min_hlasov_aktivni = pocet
+            najmenej_aktivni = cislo
+print(f"Súťažiaci s najmenej hlasmi (bez vypadnutých): {najmenej_aktivni} ({min_hlasov_aktivni} hlasov)")
