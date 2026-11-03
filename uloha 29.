@@ -1,0 +1,67 @@
+def spracuj_riadok(riadok):
+    if len(riadok) > 0 and riadok[-1] == "\n":
+        riadok = riadok[:-1]
+
+    vysledok_zoznam = []
+    aktualny_znak = "0"
+    i = 0
+    dlzka = len(riadok)
+
+    while i < dlzka:
+        pocet = 0
+        while i < dlzka and riadok[i] == aktualny_znak:
+            pocet += 1
+            i += 1
+
+        vysledok_zoznam.append(str(pocet))
+
+        if aktualny_znak == "0":
+            aktualny_znak = "1"
+        else:
+            aktualny_znak = "0"
+
+    vystupny_riadok = ""
+    for j in range(len(vysledok_zoznam)):
+        vystupny_riadok = vystupny_riadok + vysledok_zoznam[j]
+        if j < len(vysledok_zoznam) - 1:
+            vystupny_riadok = vystupny_riadok + " "
+
+    return vystupny_riadok
+#
+#
+#
+subor = open("kompresia_obrazka_1.txt", "r", encoding="utf-8")
+prvy_riadok = subor.readline()
+
+if len(prvy_riadok) > 0 and prvy_riadok[-1] == "\n":
+    prvy_riadok = prvy_riadok[:-1]
+
+casti = prvy_riadok.split(" ")
+sirka = int(casti[0])
+vyska = int(casti[1])
+pocet_bodov = sirka * vyska
+
+print("Šírka obrázka:", sirka)
+print("Výška obrázka:", vyska)
+print("Počet všetkých bodov:", pocet_bodov)
+
+prvy_obrazkovy_riadok = subor.readline()
+vysledok_prveho = spracuj_riadok(prvy_obrazkovy_riadok)
+print("Spracovaný prvý riadok:", vysledok_prveho)
+
+subor.close()
+#
+#
+#
+subor_vstup = open("kompresia_obrazka_1.txt", "r", encoding="utf-8")
+subor_vystup = open("kompresia_obrazka_vystup.txt", "w", encoding="utf-8")
+
+rozmery_riadok = subor_vstup.readline()
+subor_vystup.write(rozmery_riadok)
+
+for riadok in subor_vstup:
+    skomprimovany_riadok = spracuj_riadok(riadok)
+    subor_vystup.write(skomprimovany_riadok + "\n")
+
+subor_vstup.close()
+subor_vystup.close()
