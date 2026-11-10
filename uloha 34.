@@ -1,0 +1,65 @@
+def spracuj_riadok(riadok):
+    if len(riadok) > 0 and riadok[-1] == "\n":
+        riadok = riadok[:-1]
+
+    if len(riadok) == 0:
+        return ""
+
+    cisla_text = riadok.split(" ")
+    cisla = []
+    for c in cisla_text:
+        cisla.append(int(c))
+
+    vystupny_riadok = ""
+    aktualna_farba = "0"
+
+    for pocet in cisla:
+        j = 0
+        while j < pocet:
+            vystupny_riadok = vystupny_riadok + aktualna_farba
+            j = j + 1
+
+        if aktualna_farba == "0":
+            aktualna_farba = "1"
+        else:
+            aktualna_farba = "0"
+
+    return vystupny_riadok
+#
+#
+#
+subor = open("dekompresia_obrazka_1.txt", "r", encoding="utf-8")
+prvy_riadok = subor.readline()
+#
+#
+#
+if len(prvy_riadok) > 0 and prvy_riadok[-1] == "\n":
+    prvy_riadok = prvy_riadok[:-1]
+
+casti = prvy_riadok.split(" ")
+sirka = int(casti[0])
+vyska = int(casti[1])
+pocet_bodov = sirka * vyska
+
+print("Šírka obrázka:", sirka)
+print("Výška obrázka:", vyska)
+print("Počet všetkých bodov:", pocet_bodov)
+
+prvy_obrazkovy_riadok = subor.readline()
+vysledok_prveho = spracuj_riadok(prvy_obrazkovy_riadok)
+print("Dekomprimovaný prvý riadok:", vysledok_prveho)
+
+subor.close()
+
+subor_vstup = open("dekompresia_obrazka_1.txt", "r", encoding="utf-8")
+subor_vystup = open("dekompresia_obrazka_vystup.txt", "w", encoding="utf-8")
+
+rozmery_riadok = subor_vstup.readline()
+subor_vystup.write(rozmery_riadok)
+
+for riadok in subor_vstup:
+    dekomprimovany_riadok = spracuj_riadok(riadok)
+    subor_vystup.write(dekomprimovany_riadok + "\n")
+
+subor_vstup.close()
+subor_vystup.close()
