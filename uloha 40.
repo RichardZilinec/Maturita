@@ -1,0 +1,53 @@
+subor = open("spokojnost_1.txt", "r", encoding="utf-8")
+
+celkovy_pocet = 0
+hodiny_pocet = {}
+dni_pocet = []
+aktualny_den_reakcie = 0
+predchadzajuca_hodina = ""
+
+for riadok in subor:
+    if len(riadok) > 0 and riadok[-1] == "\n":
+        riadok = riadok[:-1]
+
+    if len(riadok) == 0:
+        continue
+
+    celkovy_pocet = celkovy_pocet + 1
+    casti = riadok.split(" ")
+    cas = casti[0]
+    hodina_str = cas[0] + cas[1]
+    hodina = int(hodina_str)
+
+    if predchadzajuca_hodina != "" and hodina < predchadzajuca_hodina:
+        dni_pocet.append(aktualny_den_reakcie)
+        aktualny_den_reakcie = 1
+    else:
+        aktualny_den_reakcie = aktualny_den_reakcie + 1
+
+    predchadzajuca_hodina = hodina
+
+    if hodina not in hodiny_pocet:
+        hodiny_pocet[hodina] = 0
+    hodiny_pocet[hodina] = hodiny_pocet[hodina] + 1
+
+if aktualny_den_reakcie > 0:
+    dni_pocet.append(aktualny_den_reakcie)
+
+subor.close()
+
+cislo_dna = 1
+for pocet_reakcii in dni_pocet:
+    print(f"{cislo_dna}. deň - počet reakcií:{pocet_reakcii}")
+    cislo_dna = cislo_dna + 1
+
+print(f"Počet všetkých vyjadrení: {celkovy_pocet}")
+
+h = 0
+while h <= 23:
+    if h in hodiny_pocet:
+        print(f"Hodina:{h} Reakcií zákazníkov:{hodiny_pocet[h]}")
+    h = h + 1
+
+pocet_dni = len(dni_pocet)
+print(f"Počet dní: {pocet_dni}")
