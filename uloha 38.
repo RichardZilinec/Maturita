@@ -1,0 +1,67 @@
+subor = open("spokojnost_1.txt", "r", encoding="utf-8")
+
+celkovy_pocet = 0
+
+spokojni_hodiny = {}
+nespokojni_hodiny = {}
+celkovo_hodiny = {}
+
+for riadok in subor:
+    if len(riadok) > 0 and riadok[-1] == "\n":
+        riadok = riadok[:-1]
+
+    if len(riadok) == 0:
+        continue
+
+    celkovy_pocet = celkovy_pocet + 1
+
+    casti = riadok.split(" ")
+    cas = casti[0]
+    odpoved = casti[1]
+    hodina = cas[0] + cas[1]
+
+    if hodina not in celkovo_hodiny:
+        celkovo_hodiny[hodina] = 0
+        spokojni_hodiny[hodina] = 0
+        nespokojni_hodiny[hodina] = 0
+
+    celkovo_hodiny[hodina] = celkovo_hodiny[hodina] + 1
+
+    if odpoved == "áno":
+        spokojni_hodiny[hodina] = spokojni_hodiny[hodina] + 1
+    elif odpoved == "nie":
+        nespokojni_hodiny[hodina] = nespokojni_hodiny[hodina] + 1
+
+subor.close()
+
+print("Celkový počet vyjadrení:", celkovy_pocet)
+
+max_spokojnych = -1
+hodina_max_spokojnych = ""
+
+for h in spokojni_hodiny:
+    pocet = spokojni_hodiny[h]
+    if max_spokojnych == -1 or pocet > max_spokojnych:
+        max_spokojnych = pocet
+        hodina_max_spokojnych = h
+
+print(f"Najviac spokojných zákazníkov bolo počas {hodina_max_spokojnych}. hodiny: {max_spokojnych}")
+
+max_nespokojnych = -1
+hodina_max_nespokojnych = ""
+
+for h in nespokojni_hodiny:
+    pocet = nespokojni_hodiny[h]
+    if max_nespokojnych == -1 or pocet > max_nespokojnych:
+        max_nespokojnych = pocet
+        hodina_max_nespokojnych = h
+
+print(f"Najviac nespokojných zákazníkov bolo počas {hodina_max_nespokojnych}. hodiny: {max_nespokojnych}")
+print("Percentá spokojnosti pre jednotlivé hodiny:")
+
+for h in celkovo_hodiny:
+    celkovo_v_hodine = celkovo_hodiny[h]
+    pocet_spokojnych = spokojni_hodiny[h]
+    percento = (pocet_spokojnych / celkovo_v_hodine) * 100
+    
+    print(f"Hodina {h}:00 - {percento:.1f}% spokojnosť ({pocet_spokojnych} z {celkovo_v_hodine} zákazníkov)")
